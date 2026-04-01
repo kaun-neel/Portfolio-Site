@@ -27,8 +27,59 @@
             <div class="topbar-right">
                 <span class="topbar-clock" id="clock">--:--:--</span>
                 <button class="theme-btn" id="theme-btn">[ THEME ]</button>
+                <button class="hamburger" id="hamburger" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
         </div>
+        <div class="mobile-nav-overlay" id="mobile-nav-overlay"></div>
+        <nav class="mobile-nav" id="mobile-nav">
+            <div class="mobile-nav-header">
+                <span class="mobile-nav-title">Neel@portfolio</span>
+                <button class="mobile-nav-close" id="mobile-nav-close">&times;</button>
+            </div>
+            <div class="mobile-nav-section">
+                <div class="sidebar-label">navigate</div>
+                <a class="nav-item active" data-section="welcome" onclick="closeMobileNav()">
+                    <span class="nav-icon">$</span>
+                    <span>./welcome.sh</span>
+                </a>
+                <a class="nav-item" data-section="about" onclick="closeMobileNav()">
+                    <span class="nav-icon">$</span>
+                    <span class="nav-cmd">cat</span> about.txt
+                </a>
+                <a class="nav-item" data-section="projects" onclick="closeMobileNav()">
+                    <span class="nav-icon">$</span>
+                    <span class="nav-cmd">ls</span> ./projects/
+                </a>
+                <a class="nav-item" data-section="cases" onclick="closeMobileNav()">
+                    <span class="nav-icon">$</span>
+                    <span class="nav-cmd">cat</span> case_studies.md
+                </a>
+                <a class="nav-item" data-section="contact" onclick="closeMobileNav()">
+                    <span class="nav-icon">$</span>
+                    <span>./contact.sh</span>
+                </a>
+            </div>
+            <div class="mobile-nav-divider"></div>
+            <div class="mobile-nav-section">
+                <div class="sidebar-label">links</div>
+                <a class="nav-item" href="https://github.com/kaun-neel" target="_blank">
+                    <span class="nav-icon">↗</span> github
+                </a>
+                <a class="nav-item" href="mailto:indraneelbose89191@gmail.com">
+                    <span class="nav-icon">@</span> email
+                </a>
+            </div>
+            <div class="mobile-nav-footer">
+                <div class="sidebar-status">
+                    <span class="status-dot"></span>
+                    online · available
+                </div>
+            </div>
+        </nav>
         <aside class="sidebar">
             <div class="sidebar-section">
                 <div class="sidebar-label">navigate</div>

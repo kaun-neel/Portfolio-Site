@@ -312,3 +312,46 @@ if(document.getElementById('intro-text')) {
             const mailto = `mailto:indraneelbose89191@gmail.com?subject=Portfolio Contact from ${encodeURIComponent(name)}&body=${encodeURIComponent(msg + '\n\nFrom: ' + email)}`;
             window.location.href = mailto;
         }
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobile-nav');
+        const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
+        const mobileNavClose = document.getElementById('mobile-nav-close');
+        function openMobileNav() {
+            hamburger.classList.add('active');
+            mobileNav.classList.add('active');
+            mobileNavOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMobileNav() {
+            hamburger.classList.remove('active');
+            mobileNav.classList.remove('active');
+            mobileNavOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        if (hamburger) {
+            hamburger.addEventListener('click', () => {
+                if (mobileNav.classList.contains('active')) {
+                    closeMobileNav();
+                } else {
+                    openMobileNav();
+                }
+            });
+        }
+        if (mobileNavClose) {
+            mobileNavClose.addEventListener('click', closeMobileNav);
+        }
+        if (mobileNavOverlay) {
+            mobileNavOverlay.addEventListener('click', closeMobileNav);
+        }
+        document.querySelectorAll('.mobile-nav .nav-item[data-section]').forEach(el => {
+            el.addEventListener('click', (e) => {
+                e.preventDefault();
+                closeMobileNav();
+                navigate(el.dataset.section);
+            });
+        });
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                closeMobileNav();
+            }
+        });
