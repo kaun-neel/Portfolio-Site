@@ -4,176 +4,423 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neel's Web</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Neel@portfolio: ~</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="scanline"></div>
-    <div class="terminal-container">
-        <div class="terminal-header">
-            <div class="buttons">
-                <span class="btn red"></span>
-                <span class="btn yellow"></span>
-                <span class="btn green"></span>
+    <div class="os-shell">
+        <div class="topbar">
+            <div class="topbar-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
             </div>
-            <div class="title">Neel@portfolio: ~</div>
-            <div style="display: flex; align-items: center;">
-                <div class="timestamp" id="timestamp">--:--:--</div>
-                <button class="theme-toggle" id="theme-toggle">[ THEME ]</button>
+            <div class="topbar-title">
+                <span class="host">Neel</span>@portfolio: ~
+            </div>
+            <div class="topbar-right">
+                <span class="topbar-clock" id="clock">--:--:--</span>
+                <button class="theme-btn" id="theme-btn">[ THEME ]</button>
             </div>
         </div>
-
-        <div class="terminal-body">
-            <div class="intro-section">
-                <p class="prompt"><span class="user">Neel</span><span class="at">@</span><span
-                        class="host">portfolio</span><span class="colon">:</span><span class="path">~</span>$ <span
-                        class="command">./welcome.sh</span></p>
-                <div class="typewriter" id="intro-text"></div>
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-label">navigate</div>
+                <a class="nav-item active" data-section="welcome">
+                    <span class="nav-icon">$</span>
+                    <span>./welcome.sh</span>
+                </a>
+                <a class="nav-item" data-section="about">
+                    <span class="nav-icon">$</span>
+                    <span class="nav-cmd">cat</span> about.txt
+                </a>
+                <a class="nav-item" data-section="projects">
+                    <span class="nav-icon">$</span>
+                    <span class="nav-cmd">ls</span> ./projects/
+                </a>
+                <a class="nav-item" data-section="cases">
+                    <span class="nav-icon">$</span>
+                    <span class="nav-cmd">cat</span> case_studies.md
+                </a>
+                <a class="nav-item" data-section="contact">
+                    <span class="nav-icon">$</span>
+                    <span>./contact.sh</span>
+                </a>
             </div>
-
-            <nav class="navigation">
-                <p class="comment"># Select a command to navigate:</p>
-                <ul class="command-list">
-                    <li><span class="cmd-prompt">></span> <a href="#about" class="cmd-link" data-target="about">cat
-                            about.txt</a></li>
-                    <li><span class="cmd-prompt">></span> <a href="#projects" class="cmd-link" data-target="projects">ls
-                            ./projects/</a></li>
-                    <li><span class="cmd-prompt">></span> <a href="#contact" class="cmd-link"
-                            data-target="contact">./contact.sh</a></li>
-                    <li><span class="cmd-prompt">></span> <a href="#music" class="cmd-link"
-                            data-target="music">./music.sh</a></li>
-                </ul>
-            </nav>
-
-            <main id="content-area">
-                <!-- Dynamic content will be loaded here -->
-                <div id="about" class="section hidden">
-                    <p class="prompt"><span class="user">Neel</span><span class="at">@</span><span
-                            class="host">portfolio</span><span class="colon">:</span><span class="path">~</span>$ <span
-                            class="command">cat about.txt</span></p>
-                    <div class="output">
-                        <p>Hello! Myself Neel and I'm a passionate analyst who loves analyze and research things.</p>
-                        <p>I specialize in researching in the fields of Data Science and Machine Learning with
-                            developing cool projects as a sidekick or an ick ;).</p>
-                        <br>
-                        <p>Stack:</p>
-                        <ul class="tree">
-                            <li>├── HTML5</li>
-                            <li>├── CSS3 (Creative Styling)</li>
-                            <li>├── JavaScript (ES6+)</li>
-                            <li>├── Python</li>
-                            <li>├── Go</li>
-                            <li>├── C++</li>
-                            <li>├── C</li>
-                            <li>├── Java</li>
-                            <li>├── TypeScript</li>
-                            <li>├── Node.js</li>
-                            <li>├── Firebase</li>
-                            <li>├── Git</li>
-                            <li>├── GitHub</li>
-                            <li>├── Docker</li>
-                            <li>├── Kubernetes</li>
-                            <li>└── GCP</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div id="projects" class="section hidden">
-                    <p class="prompt"><span class="user">Neel</span><span class="at">@</span><span
-                            class="host">portfolio</span><span class="colon">:</span><span class="path">~</span>$ <span
-                            class="command">ls -la ./projects/</span></p>
-                    <div class="output grid-output">
-                        <div class="card">
-                            <h3>Graphy.io</h3>
-                            <p>Social Network Analysis using Graph Neural Networks</p>
-                            <a href="https://github.com/kaun-neel/graphy.io-GNN-Social-Analysis">[View Source]</a>
-                        </div>
-                        <div class="card">
-                            <h3>MultiAgent-Debate-DAG-Model</h3>
-                            <p>A sophisticated debate simulation system where two AI agents (Scientist vs Philosopher)
-                                engage in structured arguments using LangGraph workflows.</p>
-                            <a href="https://github.com/kaun-neel/MultiAgent-Debate-DAG-Model">[View Source]</a>
-                        </div>
-                        <div class="card">
-                            <h3>Tempestra</h3>
-                            <p>A deep learning climate model surrogate that uses advanced neural networks to predict
-                                weather patterns and storm trajectories across different regions.</p>
-                            <a href="https://github.com/kaun-neel/Tempestra">[View Source]</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="contact" class="section hidden">
-                    <p class="prompt"><span class="user">Neel</span><span class="at">@</span><span
-                            class="host">portfolio</span><span class="colon">:</span><span class="path">~</span>$ <span
-                            class="command">./contact.sh</span></p>
-                    <div class="output">
-                        <p>Initiating connection...</p>
-                        <p>Email: <a href="mailto:indraneelbose89191@gmail.com"
-                                class="highlight">indraneelbose89191@gmail.com</a></p>
-                        <p>GitHub: <a href="https://github.com/kaun-neel" class="highlight">kaun-neel</a></p>
-                        <p>StackOverflow: <a href="https://stackoverflow.com/users/19200067/indraneel-bose "
-                                class="highlight">indraneel-bose</a></p>
-                        <br>
-                        <form class="cli-form">
-                            <div class="input-group">
-                                <label for="name">Name:</label>
-                                <input type="text" id="name" placeholder="_">
-                            </div>
-                            <div class="input-group">
-                                <label for="msg">Message:</label>
-                                <textarea id="msg" rows="1" placeholder="_"></textarea>
-                            </div>
-                            <button type="submit" class="btn-submit">[ SEND MESSAGE ]</button>
-                        </form>
-                    </div>
-                </div>
-
-                <div id="music" class="section hidden">
-                    <p class="prompt"><span class="user">Neel</span><span class="at">@</span><span
-                            class="host">portfolio</span><span class="colon">:</span><span class="path">~</span>$ <span
-                            class="command">./music.sh</span></p>
-                    <div class="output">
-                        <p>Loading my favourite playlist configuration...</p>
-                        <p>Now Playing: <span class="highlight">Cinderella - Future & Metro Boomin</span></p>
-
-                        <div class="music-player-ui">
-                            <div class="visualizer">
-                                <span></span><span></span><span></span><span></span><span></span>
-                                <span></span><span></span><span></span><span></span><span></span>
-                                <span></span><span></span><span></span><span></span><span></span>
-                            </div>
-                            <div class="controls">
-                                <button id="btn-pause" class="control-btn">[ || ]</button>
-                                <button id="btn-replay" class="control-btn">[ ↻ ]</button>
-                            </div>
-                        </div>
-
-                        <p>Checkout my playlist on:</p>
-                        <ul class="tree">
-                            <li>├── <a href="https://music.apple.com/in/playlist/ixi/pl.u-yZyVE31CdMBNVoA"
-                                    target="_blank">[ Apple Music ]</a></li>
-                            <li>└── <a
-                                    href="https://music.youtube.com/playlist?list=PLCRYBxEaZZdCKVLeEaimGS-WymsBlRSZ9&si=u2xg9lAXoKumrB6_"
-                                    target="_blank">[ YouTube Music ]</a></li>
-                        </ul>
-                    </div>
-                    <audio id="bg-music" src="cinderella.mp3" preload="auto"></audio>
-                </div>
-            </main>
-
-            <div class="active-line">
-                <span class="user">Neel</span><span class="at">@</span><span class="host">portfolio</span><span
-                    class="colon">:</span><span class="path">~</span>$ <span class="cursor">_</span>
+            <div class="sidebar-divider"></div>
+            <div class="sidebar-section">
+                <div class="sidebar-label">links</div>
+                <a class="nav-item" href="https://github.com/kaun-neel" target="_blank">
+                    <span class="nav-icon">↗</span> github
+                </a>
+                <a class="nav-item" href="mailto:indraneelbose89191@gmail.com">
+                    <span class="nav-icon">@</span> email
+                </a>
             </div>
+            <div class="sidebar-bottom">
+                <div class="sidebar-status">
+                    <span class="status-dot"></span>
+                    online · available
+                </div>
+            </div>
+        </aside>
+        <main class="main">
+            <div class="tab-bar" id="tab-bar">
+                <div class="tab active" data-section="welcome">welcome.sh</div>
+                <div class="tab" data-section="about">about.txt</div>
+                <div class="tab" data-section="projects">projects/</div>
+                <div class="tab" data-section="cases">case_studies.md</div>
+                <div class="tab" data-section="contact">contact.sh</div>
+            </div>
+            <div class="content-scroll">
+                <div class="term-section active" id="sec-welcome">
+                    <div class="welcome-section" style="padding:0">
+                        <div class="prompt-line">
+                            <span class="p-user">Neel</span><span class="p-at">@</span><span
+                                class="p-host">portfolio</span><span class="p-colon">:</span><span
+                                class="p-path">~</span><span class="p-dollar">$</span><span
+                                class="p-cmd">./welcome.sh</span>
+                        </div>
+                        <div class="welcome-header"
+                            style="display: flex; justify-content: flex-start; align-items: flex-end; margin-bottom: 32px; position: relative;">
+                            <pre class="welcome-ascii" style="margin-bottom: 0;">
+  ███╗   ██╗███████╗███████╗██╗
+  ████╗  ██║██╔════╝██╔════╝██║
+  ██╔██╗ ██║█████╗  █████╗  ██║
+  ██║╚██╗██║██╔══╝  ██╔══╝  ██║
+  ██║ ╚████║███████╗███████╗███████╗
+  ╚═╝  ╚═══╝╚══════╝╚══════╝╚══════╝</pre>
+                        </div>
+                        <div style="margin-bottom: 28px;">
+                            <p class="welcome-text">
+                                Hello, I'm <span class="hl">Indraneel Bose</span> — but you can call me <span
+                                    class="hl">Neel</span>.
+                            </p>
+                            <p class="welcome-text" style="color: var(--text-dim); font-size:13px; margin-top:6px;">
+                                Analyst · Researcher · Builder
+                            </p>
+                        </div>
+                        <div class="welcome-meta">
+                            <div class="meta-card">
+                                <div class="label">Specialization</div>
+                                <div class="value">Data Science · ML</div>
+                            </div>
+                            <div class="meta-card">
+                                <div class="label">Focus</div>
+                                <div class="value">LLMs · Graph NN</div>
+                            </div>
+                            <div class="meta-card">
+                                <div class="label">Status</div>
+                                <div class="value" style="color: var(--green);">● Available</div>
+                            </div>
+                        </div>
+                        <div class="welcome-hint">
+                            Welcome to my digital workspace. Here you'll find my work in<br>
+                            <span style="color:var(--amber)">Cybersecurity · Machine Learning · LLM systems · Data
+                                Engineering</span>.<br>
+                            <span style="color:var(--text-muted); font-size:12px;">Use the sidebar or tabs above to
+                                navigate →</span>
+                        </div>
+                        <div style="margin-top: 32px; color: var(--text-muted); font-size: 12px; line-height: 1.9;">
+                            <p># System initialized. All modules loaded.</p>
+                            <p># Type a command or click a nav item to explore.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="term-section" id="sec-about">
+                    <div class="prompt-line">
+                        <span class="p-user">Neel</span><span class="p-at">@</span><span
+                            class="p-host">portfolio</span><span class="p-colon">:</span><span
+                            class="p-path">~</span><span class="p-dollar">$</span><span class="p-cmd">cat
+                            about.txt</span>
+                    </div>
+                    <div class="about-grid">
+                        <div class="about-bio">
+                            <p>Hello! I'm <span class="hl">Neel</span> — a passionate analyst who loves to dig into data
+                                and uncover what's really going on beneath the surface.</p>
+                            <p>I specialize in <span class="hl">Data Science</span> and <span class="hl">Machine
+                                    Learning</span>, with a particular interest in Graph Neural Networks, LLM systems,
+                                and deep learning applications.</p>
+                            <p>When I'm not building models, I'm probably researching the next interesting problem — or
+                                shipping a side project that goes from <em>"cool idea"</em> to <em>"why did I start
+                                    this"</em> real fast.</p>
+                            <p class="comment"># Currently exploring: multi-agent architectures, climate modeling with
+                                neural surrogates, and graph-based social analytics.</p>
+                        </div>
+                        <div class="stack-panel">
+                            <div class="stack-header">
+                                <span class="dot-g"></span>
+                                stack.json — technologies
+                            </div>
+                            <div class="stack-body">
+                                <span class="stack-item">Python</span>
+                                <span class="stack-item">JavaScript</span>
+                                <span class="stack-item">TypeScript</span>
+                                <span class="stack-item">Go</span>
+                                <span class="stack-item">C++</span>
+                                <span class="stack-item">Java</span>
+                                <span class="stack-item">Node.js</span>
+                                <span class="stack-item">HTML5</span>
+                                <span class="stack-item">CSS3</span>
+                                <span class="stack-item">Firebase</span>
+                                <span class="stack-item">Docker</span>
+                                <span class="stack-item">Kubernetes</span>
+                                <span class="stack-item">Git</span>
+                                <span class="stack-item">GitHub</span>
+                                <span class="stack-item">GCP</span>
+                                <span class="stack-item">C</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="term-section" id="sec-projects">
+                    <div class="prompt-line">
+                        <span class="p-user">Neel</span><span class="p-at">@</span><span
+                            class="p-host">portfolio</span><span class="p-colon">:</span><span
+                            class="p-path">~</span><span class="p-dollar">$</span><span class="p-cmd">ls -la
+                            ./projects/</span>
+                    </div>
+                    <div class="projects-grid">
+                        <div class="project-card" onclick="navigate('proj-graphy')" style="cursor: pointer;">
+                            <div class="project-tag">01 · Data Science</div>
+                            <div class="project-name">Graphy.io</div>
+                            <div class="project-desc">Social Network Analysis using Graph Neural Networks. Analyzes
+                                structural patterns in social graphs to understand community formation and influence
+                                propagation.</div>
+                            <div class="project-footer">
+                                <div class="project-langs">
+                                    <span class="lang-badge">Python</span>
+                                    <span class="lang-badge">GNN</span>
+                                </div>
+                                <a class="project-link" href="#"
+                                    onclick="event.stopPropagation(); navigate('proj-graphy'); return false;">[view
+                                    source →]</a>
+                            </div>
+                        </div>
+                        <div class="project-card" onclick="navigate('proj-debate')" style="cursor: pointer;">
+                            <div class="project-tag">02 · AI / LLMs</div>
+                            <div class="project-name">MultiAgent-Debate-DAG-Model</div>
+                            <div class="project-desc">A sophisticated debate simulation where two AI agents (Scientist
+                                vs Philosopher) engage in structured arguments using LangGraph DAG workflows.</div>
+                            <div class="project-footer">
+                                <div class="project-langs">
+                                    <span class="lang-badge">Python</span>
+                                    <span class="lang-badge">LangGraph</span>
+                                </div>
+                                <a class="project-link" href="https://github.com/kaun-neel/multiagent-dag-workflow"
+                                    target="_blank" onclick="event.stopPropagation();">[view source →]</a>
+                            </div>
+                        </div>
+                        <div class="project-card" onclick="navigate('proj-tempestra')" style="cursor: pointer;">
+                            <div class="project-tag">03 · Deep Learning</div>
+                            <div class="project-name">Tempestra</div>
+                            <div class="project-desc">A deep learning climate model surrogate using advanced neural
+                                networks to predict weather patterns and storm trajectories across different regions.
+                            </div>
+                            <div class="project-footer">
+                                <div class="project-langs">
+                                    <span class="lang-badge">Python</span>
+                                    <span class="lang-badge">PyTorch</span>
+                                </div>
+                                <a class="project-link" href="#"
+                                    onclick="event.stopPropagation(); navigate('proj-tempestra'); return false;">[view
+                                    source →]</a>
+                            </div>
+                        </div>
+                        <div class="project-card" onclick="navigate('proj-ridescout')" style="cursor: pointer;">
+                            <div class="project-tag">04 · Data Science</div>
+                            <div class="project-name">RideScout</div>
+                            <div class="project-desc">Compare cab prices across multiple apps using Droidrun and LLMs.
+                            </div>
+                            <div class="project-footer">
+                                <div class="project-langs">
+                                    <span class="lang-badge">Python</span>
+                                    <span class="lang-badge">LLMs</span>
+                                </div>
+                                <a class="project-link" href="#"
+                                    onclick="event.stopPropagation(); navigate('proj-ridescout'); return false;">[view
+                                    source →]</a>
+                            </div>
+                        </div>
+                        <div class="project-card" onclick="navigate('proj-ghostshell')" style="cursor: pointer;">
+                            <div class="project-tag">05 · Systems Development</div>
+                            <div class="project-name">GhostShell</div>
+                            <div class="project-desc">A fully functional Unix shell built entirely from scratch in
+                                Haskell, featuring a beautiful web-based terminal UI.</div>
+                            <div class="project-footer">
+                                <div class="project-langs">
+                                    <span class="lang-badge">Haskell</span>
+                                    <span class="lang-badge">Web UI</span>
+                                </div>
+                                <a class="project-link" href="#"
+                                    onclick="event.stopPropagation(); navigate('proj-ghostshell'); return false;">[view
+                                    source →]</a>
+                            </div>
+                        </div>
+                        <div class="project-card" onclick="navigate('proj-exo')" style="cursor: pointer;">
+                            <div class="project-tag">06 · Data Engineering</div>
+                            <div class="project-name">Exoplanets-Habitability-Scorer Public</div>
+                            <div class="project-desc">A fully functional Exoplanet Habitability Scoring Engine built
+                                entirely in SQL, using real observational data sourced from NASA's Planetary Systems
+                                Composite Parameters archive.</div>
+                            <div class="project-footer">
+                                <div class="project-langs">
+                                    <span class="lang-badge">SQL</span>
+                                </div>
+                                <a class="project-link" href="#"
+                                    onclick="event.stopPropagation(); navigate('proj-exo'); return false;">[view source
+                                    →]</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="term-section" id="sec-proj-graphy" data-src="projects/graphy.html">
+                    <!-- Content loaded dynamically via fetch -->
+                </div>
+                <div class="term-section" id="sec-proj-debate" data-src="projects/debate_model.html">
+                    <!-- Content loaded dynamically via fetch -->
+                </div>
+                <div class="term-section" id="sec-proj-tempestra" data-src="projects/tempestra.html">
+                    <!-- Content loaded dynamically via fetch -->
+                </div>
+                <div class="term-section" id="sec-proj-ridescout" data-src="projects/ridescout.html">
+                    <!-- Content loaded dynamically via fetch -->
+                </div>
+                <div class="term-section" id="sec-proj-ghostshell" data-src="projects/ghostshell.html">
+                    <!-- Content loaded dynamically via fetch -->
+                </div>
+                <div class="term-section" id="sec-proj-exo" data-src="projects/exoplanets.html">
+                    <!-- Content loaded dynamically via fetch -->
+                </div>
+                <div class="term-section" id="sec-cases">
+                    <div class="prompt-line">
+                        <span class="p-user">Neel</span><span class="p-at">@</span><span
+                            class="p-host">portfolio</span><span class="p-colon">:</span><span
+                            class="p-path">~</span><span class="p-dollar">$</span><span class="p-cmd">cat
+                            case_studies.md</span>
+                    </div>
+                    <p style="color:var(--text-dim); font-size:12px; margin-bottom:24px;"># Scanning for detailed
+                        reports and architecture deep-dives...</p>
+                    <div class="projects-grid">
+                        <div class="project-card" onclick="navigate('case-exo')" style="cursor: pointer;">
+                            <div class="project-tag">Case Study</div>
+                            <div class="project-name">NASA Habitability Scorer Case Study</div>
+                            <div class="project-desc">A fully functional Exoplanet Habitability Scoring Engine built
+                                entirely in SQL, using real observational data sourced from NASA's Planetary Systems
+                                Composite Parameters archive.</div>
+                            <div class="project-footer">
+                                <div class="project-langs">
+                                    <span class="lang-badge">SQL</span>
+                                    <span class="lang-badge">Data Engineering</span>
+                                </div>
+                                <a class="project-link" href="#"
+                                    onclick="event.stopPropagation(); navigate('case-exo'); return false;">[view details
+                                    →]</a>
+                            </div>
+                        </div>
+                        <div class="project-card" onclick="navigate('case-adversarial')" style="cursor: pointer;">
+                            <div class="project-tag">Case Study</div>
+                            <div class="project-name">Adversarial Robustness: Cat-to-Object Perception Gap</div>
+                            <div class="project-desc">Empirical characterization of CNN brittleness using I-FGSM attacks to demonstrate the Perception Gap — where humans see a cat but ResNet-50 sees a rug with 99%+ confidence.</div>
+                            <div class="project-footer">
+                                <div class="project-langs">
+                                    <span class="lang-badge">PyTorch</span>
+                                    <span class="lang-badge">Adversarial ML</span>
+                                </div>
+                                <a class="project-link" href="#"
+                                    onclick="event.stopPropagation(); navigate('case-adversarial'); return false;">[view details
+                                    →]</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="term-section" id="sec-case-exo" data-src="cases/nasa_exoplanet_scorer.html">
+                    <!-- Content loaded dynamically via fetch -->
+                </div>
+                <div class="term-section" id="sec-case-adversarial" data-src="cases/adversarial_robustness.html">
+                    <!-- Content loaded dynamically via fetch -->
+                </div>
+                <div class="term-section" id="sec-contact">
+                    <div class="prompt-line">
+                        <span class="p-user">Neel</span><span class="p-at">@</span><span
+                            class="p-host">portfolio</span><span class="p-colon">:</span><span
+                            class="p-path">~</span><span class="p-dollar">$</span><span
+                            class="p-cmd">./contact.sh</span>
+                    </div>
+                    <p style="color:var(--text-dim); font-size:12px; margin-bottom:24px;"># Initiating connection
+                        protocols...</p>
+                    <div class="contact-layout">
+                        <div class="contact-links">
+                            <div class="contact-link-item">
+                                <div class="contact-icon">EMAIL</div>
+                                <div class="contact-info">
+                                    <div class="label">Primary</div>
+                                    <a href="mailto:indraneelbose89191@gmail.com">indraneelbose89191@gmail.com</a>
+                                </div>
+                            </div>
+                            <div class="contact-link-item">
+                                <div class="contact-icon">GITHUB</div>
+                                <div class="contact-info">
+                                    <div class="label">Source Code</div>
+                                    <a href="https://github.com/kaun-neel" target="_blank">github.com/kaun-neel</a>
+                                </div>
+                            </div>
+                            <div class="contact-link-item">
+                                <div class="contact-icon">SO</div>
+                                <div class="contact-info">
+                                    <div class="label">Stack Overflow</div>
+                                    <a href="https://stackoverflow.com/users/19200067/indraneel-bose"
+                                        target="_blank">indraneel-bose</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contact-form">
+                            <div class="form-title">// send_message.sh</div>
+                            <div class="form-group">
+                                <label>$ name:</label>
+                                <input type="text" placeholder="your name" id="f-name">
+                            </div>
+                            <div class="form-group">
+                                <label>$ email:</label>
+                                <input type="email" placeholder="your@email.com" id="f-email">
+                            </div>
+                            <div class="form-group">
+                                <label>$ message:</label>
+                                <textarea rows="4" placeholder="what's on your mind?" id="f-msg"></textarea>
+                            </div>
+                            <button class="btn-send" onclick="handleSend()">[ SEND MESSAGE ]</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="input-line">
+                <span class="input-prompt">
+                    <span class="p-user">Neel</span><span class="p-at">@</span><span
+                        class="p-host">portfolio</span><span class="p-colon">:</span><span class="p-path">~</span><span
+                        class="p-dollar">$</span>
+                </span>
+                <input class="input-field" id="cmd-input" placeholder="type a command..." autocomplete="off"
+                    spellcheck="false">
+            </div>
+        </main>
+        <div class="statusbar">
+            <span class="sb-item">● NEEL@PORTFOLIO</span>
+            <span class="sb-sep">|</span>
+            <span class="sb-item" id="sb-section">WELCOME</span>
+            <span class="sb-sep">|</span>
+            <span class="sb-item">BRANCH: main</span>
+            <span class="sb-sep">|</span>
+            <span class="sb-item">UTF-8</span>
+            <span class="sb-item sb-right" id="sb-date"></span>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 
 </html>

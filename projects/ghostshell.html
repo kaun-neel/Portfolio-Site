@@ -1,0 +1,114 @@
+<div class="prompt-line">
+    <span class="p-user">Neel</span><span class="p-host">portfolio</span><span class="p-colon">:</span><span
+        class="p-path">~/projects</span><span class="p-dollar">$</span><span class="p-cmd">cat
+        ghostshell.md</span>
+</div>
+<a class="proj-back-btn" onclick="navigate('projects')">[ ← return to projects ]</a>
+
+<article class="article-layout">
+    <div class="proj-header-row" style="margin-top: 10px; align-items:flex-start; flex-direction:column; gap:15px;">
+        <h1 style="border:none; padding:0; margin:0;">GhostShell</h1>
+        <div style="display:flex; flex-wrap:wrap; gap:10px;">
+            <a class="proj-source-btn" href="https://github.com/kaun-neel/GhostShell" target="_blank">[ source code ↗
+                ]</a>
+        </div>
+    </div>
+    <p style="color:var(--text-dim); margin-bottom: 30px;">Unix Shell Built from Scratch in Haskell · Web-Based Terminal
+        UI</p>
+
+    <img src="assests/ghostshell_demo.png" alt="GhostShell Web Terminal Demo"
+        style="width:100%; max-width: 900px; margin: 0 auto 40px auto; display: block; border-radius: 8px; border: 1px solid var(--border);">
+
+    <h2>What is GhostShell?</h2>
+    <p>GhostShell is a fully functional Unix shell built entirely from scratch in Haskell, featuring a beautiful
+        web-based terminal UI. It supports real shell features like command execution, I/O redirection, quote parsing,
+        and intelligent tab completion — all implemented without any shell libraries.</p>
+    <p>Built as a deep-dive into systems programming, functional programming, and data engineering — bridging Haskell's
+        type system with low-level shell mechanics.</p>
+
+    <h2>Features</h2>
+    <table class="article-table">
+        <tr>
+            <th>Feature</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>Interactive REPL</td>
+            <td>Prompt-driven read-eval-print loop with colored output</td>
+        </tr>
+        <tr>
+            <td>Builtin Commands</td>
+            <td>echo, exit, type, pwd, cd — all implemented from scratch</td>
+        </tr>
+        <tr>
+            <td>External Commands</td>
+            <td>Full PATH resolution to find and execute any binary</td>
+        </tr>
+        <tr>
+            <td>I/O Redirection</td>
+            <td>>, >>, 2>, 2>>, 1>, 1>> — stdout and stderr redirection</td>
+        </tr>
+        <tr>
+            <td>Quote Parsing</td>
+            <td>Single quotes, double quotes, and backslash escape handling</td>
+        </tr>
+        <tr>
+            <td>Tab Completion</td>
+            <td>Completes builtins and PATH executables intelligently</td>
+        </tr>
+        <tr>
+            <td>LCP Completion</td>
+            <td>Longest Common Prefix completion for multiple matches</td>
+        </tr>
+        <tr>
+            <td>Bell on No Match</td>
+            <td>Rings bell \x07 when no completion is possible</td>
+        </tr>
+        <tr>
+            <td>Double TAB</td>
+            <td>Shows all matching completions on second TAB press</td>
+        </tr>
+        <tr>
+            <td>Web Terminal UI</td>
+            <td>Beautiful browser-based terminal powered by xterm.js</td>
+        </tr>
+    </table>
+
+    <div class="clear-float"></div>
+
+    <h2>Tech Stack</h2>
+    <table class="article-table">
+        <tr>
+            <th>Layer</th>
+            <th>Technology</th>
+        </tr>
+        <tr>
+            <td>Shell engine</td>
+            <td>Haskell (GHC 9.8.4)</td>
+        </tr>
+        <tr>
+            <td>Build system</td>
+            <td>Stack LTS 23.18</td>
+        </tr>
+        <tr>
+            <td>Web server</td>
+            <td>Node.js + Express</td>
+        </tr>
+        <tr>
+            <td>WebSocket</td>
+            <td>ws library</td>
+        </tr>
+        <tr>
+            <td>Terminal UI</td>
+            <td>xterm.js + xterm-addon-fit</td>
+        </tr>
+        <tr>
+            <td>OS</td>
+            <td>WSL2 Ubuntu 22.04</td>
+        </tr>
+    </table>
+
+    <p style="color:var(--text-dim); font-style: italic; margin-top: 30px;">Built with 💜 in Haskell — because if it
+        compiles, it works.</p>
+
+</article>

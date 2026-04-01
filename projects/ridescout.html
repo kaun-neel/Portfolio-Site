@@ -1,0 +1,64 @@
+<div class="prompt-line">
+    <span class="p-user">Neel</span><span class="p-at">@</span><span class="p-host">portfolio</span><span
+        class="p-colon">:</span><span class="p-path">~/projects</span><span class="p-dollar">$</span><span
+        class="p-cmd">cat
+        ridescout.md</span>
+</div>
+<a class="proj-back-btn" onclick="navigate('projects')">[ ← return to projects ]</a>
+<article class="article-layout">
+    <div class="proj-header-row" style="margin-top: 10px; align-items:flex-start; flex-direction:column; gap:15px;">
+        <h1 style="border:none; padding:0; margin:0;">Cab Price Comparison Automation</h1>
+        <a class="proj-source-btn" href="https://github.com/kaun-neel/RideScout" target="_blank">[ source code ↗ ]</a>
+        <img src="assests/RideScout.png" style="margin-top:5px;" alt="RideScout Logo">
+    </div>
+
+    <p style="font-size:14px; color:var(--text-dim); margin:20px 0;">
+        Droidrun Hackathon Project - An automated workflow for comparing cab prices across Uber, Ola, and Rapido using
+        Android emulator automation.
+    </p>
+
+    <h2>Overview</h2>
+    <p>This project demonstrates how automated workflows can provide significant value by comparing ride prices across
+        multiple cab services and helping users make informed decisions.</p>
+    <p>The automation runs entirely on an Android emulator using Droidrun's accessibility and vision capabilities.</p>
+
+    <h2>Features</h2>
+    <ul>
+        <li><strong>Multi-App Comparison:</strong> Automatically checks prices across Uber, Ola, and Rapido</li>
+        <li><strong>LLM-Powered:</strong> Uses z-ai/glm-4.5-air and mistralai/devstral-2512:free model via OpenRouter
+            for intelligent UI interaction</li>
+        <li><strong>Reliable:</strong> Handles failures gracefully - continues even if one or two apps fail</li>
+        <li><strong>Vision-Enabled:</strong> Uses screenshots and accessibility tree for UI understanding</li>
+        <li><strong>Safe:</strong> Never auto-books rides - requires user confirmation</li>
+        <li><strong>Transparent:</strong> Shows all prices and failures clearly</li>
+    </ul>
+
+    <h2>Limitations</h2>
+    <ul>
+        <li>Requires apps to be pre-installed and logged in</li>
+        <li>UI changes in apps may break automation</li>
+        <li>Network speed affects execution time</li>
+        <li>Some app features may be region-specific</li>
+        <li>Does not handle app-specific promotions or discounts</li>
+    </ul>
+
+    <h2>Tech Stack</h2>
+    <ul>
+        <li><strong>Automation:</strong> Droidrun (Android emulator)</li>
+        <li><strong>LLM:</strong> OpenRouter API (glm-4.5-air, devstral)</li>
+        <li><strong>Vision:</strong> Screenshot analysis, Accessibility tree</li>
+        <li><strong>Apps:</strong> Uber, Ola, Rapido</li>
+    </ul>
+
+    <h2>Future Enhancements</h2>
+    <ul>
+        <li>Support for more cab apps (Lyft, InDrive, etc.)</li>
+        <li>Price history tracking</li>
+        <li>Scheduled price checks</li>
+        <li>Push notifications for price changes</li>
+        <li>Multi-location batch processing</li>
+        <li>Integration with calendar for trip planning</li>
+    </ul>
+
+    <p style="color:var(--accent); margin-top:15px;">Built with care ❤️ for Droidrun Hackathon</p>
+</article>

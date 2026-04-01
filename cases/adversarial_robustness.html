@@ -1,0 +1,191 @@
+<div class="prompt-line">
+    <span class="p-user">Neel</span><span class="p-at">@</span><span class="p-host">portfolio</span><span
+        class="p-colon">:</span><span class="p-path">~/cases</span><span class="p-dollar">$</span><span
+        class="p-cmd">cat
+        adversarial_robustness.md</span>
+</div>
+<a class="proj-back-btn" onclick="navigate('cases')">[ ← return to cases ]</a>
+
+<article class="article-layout">
+    <div class="proj-header-row" style="margin-top: 10px; align-items:flex-start; flex-direction:column; gap:15px;">
+        <h1 style="border:none; padding:0; margin:0;">Adversarial Robustness and Cat-to-Object Perception Gap</h1>
+        <div style="display:flex; flex-wrap:wrap; gap:10px;">
+            <a class="proj-source-btn" href="../assests/Case_Study_Cat_Adversarial.pdf" target="_blank">[ download pdf ↓
+                ]</a>
+            <a class="proj-source-btn" href="#" target="_blank">[ source code ↗ ]</a>
+        </div>
+    </div>
+    <p style="color:var(--text-dim); margin-bottom: 10px;">Indraneel Bose · Indian Institute Of Technology Patna</p>
+    <p style="color:var(--text-dim); margin-bottom: 30px;">Deep Learning & Adversarial ML Case Study</p>
+
+    <h2>Abstract</h2>
+    <p>This study empirically characterizes the brittleness of deep convolutional neural networks by identifying the
+        minimum L∞-bounded perturbation magnitude (ε) required to force a targeted misclassification from a biological
+        entity (Cat, classes 281–285) to an inanimate textile (Rug, class 762). A pre-trained ResNet-50 model can be
+        forced to misclassify every image of a cat as a rug with 99%+ confidence using pixel perturbations so small they
+        are completely invisible to the human eye.</p>
+    <p>Starting with the standard Fast Gradient Sign Method (FGSM), single-step attacks were observed to scatter
+        predictions unpredictably across adjacent classes rather than converging on a chosen target. Upgrading to
+        Iterative FGSM (I-FGSM) solved this, enabling precise, surgically directed misclassification. The result is a
+        complete empirical map of the <strong>Perception Gap</strong> — the narrow ε band in which a human sees a normal
+        photograph while the model registers something else entirely, and does so with near absolute confidence.</p>
+
+    <h2>1. Introduction</h2>
+    <p>Neural networks operating in high dimensional pixel spaces have a well-documented vulnerability: they are
+        sensitive to mathematically derived noise patterns that are perceptually meaningless to humans. Szegedy et al.
+        (2013) first demonstrated that imperceptible input perturbations could cause large changes in network outputs,
+        and Goodfellow et al. (2014) provided the theoretical underpinning via the <em>linearity hypothesis</em> — the
+        observation that small perturbations accumulate into large inner product shifts across many dimensions.</p>
+    <p>This particular study frames the vulnerability in concrete, interpretable terms. Confusing a living animal with a
+        woven textile is semantically extreme. The kind of misclassification that underscores how divorced a model's
+        internal representation can be from the visual semantics a human would use. In safety-critical contexts like
+        autonomous vehicles, medical imaging, and surveillance, that semantic gap can have serious consequences.</p>
+    <p>The goal here is not merely to demonstrate that adversarial examples exist, but to measure them precisely — to
+        find exactly where the model breaks, how much perturbation it takes, and what the attack trajectory looks like
+        as ε increases from zero.</p>
+
+    <h2>2. Methodology</h2>
+    <h3>2.1 Architecture and Preprocessing</h3>
+    <p>The target model is <strong>ResNet-50</strong> with weights pre-trained on ImageNet-1K, loaded without
+        modification via PyTorch. All input images were resized to 224 × 224 pixels, converted to tensors in the range
+        [0, 1], and normalized using the standard ImageNet channel-wise mean (μ = [0.485, 0.456, 0.406]) and standard
+        deviation (σ = [0.229, 0.224, 0.225]).</p>
+    <p>This normalization step is critical as adversarial perturbations are generated in normalized space and must be
+        scaled consistently to remain within the stated ε bound.</p>
+    <p>The test corpus was a curated set of <strong>7 high-resolution images</strong>, each cleanly classified as a cat
+        breed (classes 281-285) at ε = 0. Images with confounding backgrounds (e.g., a cat partially obscured inside a
+        plastic bag) were excluded after initial testing showed that visual clutter introduced ambiguity into baseline
+        predictions.</p>
+
+    <h3>2.2 Attack Design: From FGSM to I-FGSM</h3>
+    <p>The experiment began with standard <strong>FGSM</strong>, which constructs an adversarial example in a single
+        step by moving the input in the direction of the loss gradient:</p>
+    <div
+        style="background: var(--bg-secondary); padding: 15px; border-radius: 4px; font-family: monospace; margin: 15px 0;">
+        x_adv = x + ε · sign(∇_x J(θ, x, y))
+    </div>
+    <p>FGSM reliably destroyed confidence in the 'Cat' class, but it acted as a blunt instrument — predictions scattered
+        across neighboring textile classes (hammocks, mosquito nets, bath towels) rather than converging on the intended
+        target. A single large gradient step does not navigate the high-dimensional decision boundary with enough
+        precision for a targeted attack.</p>
+    <p>The solution was to switch to <strong>Iterative FGSM (I-FGSM)</strong>, a multi-step variant of Projected
+        Gradient Descent:</p>
+    <div
+        style="background: var(--bg-secondary); padding: 15px; border-radius: 4px; font-family: monospace; margin: 15px 0;">
+        x<sub>N+1</sub> = Clip<sub>x,ε</sub> { x<sub>N</sub> − α · sign(∇_x J(θ, x<sub>N</sub>, y<sub>target</sub>)) }
+    </div>
+    <p><strong>Parameters:</strong> α = 0.005, 10 iterations, total perturbation clamped to ε. The subtraction (rather
+        than addition) in the iterative step is deliberate — the loss is being minimized with respect to the target
+        class, steering the image toward the target's decision region.</p>
+
+    <h3>2.3 Evaluation Protocol</h3>
+    <p>Attacks were evaluated across eight ε values under the L∞ norm: {0, 0.001, 0.005, 0.01, 0.02, 0.05, 0.075, 0.1}.
+        For each image at each ε, I recorded the model's top-1 predicted class, the confidence in the original class
+        (Cat), and the confidence in the target class (Rug). Attack success was defined as top-1 prediction equaling
+        class 762 (Rug).</p>
+
+    <div class="clear-float"></div>
+
+    <h2>3. Results</h2>
+    <h3>3.1 Degradation of the Original Class</h3>
+    <p>As ε increases, the model's confidence in 'Cat' does not decay gradually — <strong>it collapses</strong>. The
+        degradation curve is non-linear and exhibits a clear threshold behavior. Across all seven images, the model
+        retained near-baseline confidence up to ε = 0.005, then lost the majority of its original class confidence
+        between ε = 0.005 and ε = 0.01. By ε = 0.01, no image in the corpus was still classified as a cat.</p>
+    <p>This threshold collapse is itself a meaningful finding. It demonstrates that the model's learned representation
+        of 'cat' is not smoothly degradable — it is fragile at a specific perturbation magnitude and robust below it,
+        which creates a sharp, exploitable boundary.</p>
+
+    <h3>3.2 Targeted Ascent and the Texture Hypothesis</h3>
+    <p>The other side of this transition is the rise of the adversarial target. As Cat confidence collapses, Rug
+        confidence does not merely increase — it accelerates. In the clearest example from the corpus (cat-pic-7),
+        target confidence increased from 17.8% at ε = 0.005 to 94.3% at ε = 0.01, and plateaued at 99.9% by ε = 0.02.
+        That is an <strong>82-percentage-point increase</strong> over a perturbation increment that remains visually
+        imperceptible.</p>
+    <p>This behavior is consistent with the <strong>Texture Hypothesis</strong> (Geirhos et al., 2018), which proposes
+        that CNNs rely predominantly on local high-frequency texture features rather than global structural shapes. The
+        I-FGSM attack, by repeatedly following the gradient of the target class loss, effectively superimposes an
+        invisible 'rug texture' signature onto the pixel array. The model responds to this texture signal with high
+        confidence, entirely ignoring the global shape of a sitting or reclining cat.</p>
+
+    <h3>3.3 The Perception Gap — Empirical Definition</h3>
+    <p>The central result of this study is the empirical mapping of the <strong>Perception Gap</strong>: the ε range in
+        which the adversarial image remains visually indistinguishable from the original to a human observer, yet is
+        classified by the model as a completely different semantic category with overwhelming confidence.</p>
+
+    <table class="article-table">
+        <tr>
+            <th>Phase</th>
+            <th>ε Range</th>
+            <th>Success Rate</th>
+            <th>Observation</th>
+        </tr>
+        <tr>
+            <td>Resistance</td>
+            <td>≤ 0.005</td>
+            <td>0%</td>
+            <td>Decision boundary holds</td>
+        </tr>
+        <tr>
+            <td>Breach</td>
+            <td>0.01</td>
+            <td>71.4%</td>
+            <td>Threshold collapse begins</td>
+        </tr>
+        <tr>
+            <td>Total Subversion</td>
+            <td>≥ 0.02</td>
+            <td>100%</td>
+            <td>All images misclassified at >99% confidence</td>
+        </tr>
+    </table>
+    <p style="color:var(--text-dim); margin-top:10px;">Table 1: Phase transitions in model behavior as perturbation
+        magnitude (ε) increases. The Perception Gap is bounded between ε = 0.01 and ε = 0.02.</p>
+
+    <p>The gap defined here (ε) between 0.01 and 0.02, corresponding to roughly 1–2% pixel noise under L∞, is the
+        <strong>operational danger zone</strong>. Within this range, the attack is already fully effective from the
+        adversary's perspective, while remaining fully imperceptible from the defender's.</p>
+
+    <div class="clear-float"></div>
+
+    <h2>4. Discussion</h2>
+    <p>What this experiment ultimately demonstrates is not just that adversarial examples exist, but that they are
+        <strong>geometrically inevitable</strong> given how CNNs are trained. Standard cross-entropy loss on clean
+        images teaches a model to find the fastest path to a correct classification, and that path runs through
+        high-frequency texture features. The model never learns that a texture pattern divorced from global shape is
+        meaningless because on the clean training distribution, it never needs to.</p>
+    <p>The transition from FGSM to I-FGSM was the most instructive step in the process. It illustrated a fundamental
+        principle: navigating high-dimensional decision boundaries requires iterative refinement, not brute-force single
+        steps. The shift from 'destroy the original class' to 'engineer a specific target class' is the difference
+        between noise and a surgical instrument.</p>
+
+    <h3>Mitigation Strategies</h3>
+    <ul>
+        <li><strong>Adversarial Training</strong> — augmenting training data with adversarially perturbed examples, so
+            the model learns to treat micro-gradient patterns as uninformative noise. Effective but computationally
+            expensive and often brittle against unseen attack types.</li>
+        <li><strong>Input Sanitization</strong> — applying bit-depth reduction or spatial smoothing to inputs before
+            inference, which degrades the high-frequency perturbation signal. Simple but can reduce clean-image
+            accuracy.</li>
+        <li><strong>Shape-Biased Training</strong> — training on stylized-ImageNet or similar datasets that remove
+            texture as a reliable cue, forcing the model to rely on structural shape. More fundamentally aligned with
+            how human vision works, but requires significant dataset engineering.</li>
+    </ul>
+    <p>None of these approaches fully closes the gap. Adversarial training is prone to the cat-and-mouse dynamic where a
+        stronger attack can usually be found once a defense is known. The more durable path is likely architectural —
+        one that explicitly encodes spatial invariance and shape-based reasoning, rather than relying on texture
+        statistics.</p>
+
+    <h2>5. Conclusion</h2>
+    <p>Iterative FGSM achieves 100% targeted misclassification of cats as rugs at ε ≥ 0.02 — perturbations that are
+        completely invisible to human observers. The <strong>Perception Gap (ε ≈ 0.015)</strong> defines the precise
+        threshold where human and machine visual reality permanently diverge.</p>
+    <p>The Perception Gap is not an abstract concept. It is a measurable, reproducible, exploitable property of every
+        CNN trained with standard methods on standard data.</p>
+    <p>What I found most striking is how <strong>sharp the transition is</strong>. There is no gradual erosion. The
+        model is confidently correct, then at a specific, small ε, it becomes confidently wrong. That sharpness suggests
+        the decision boundary has a geometric structure that a one-step attack misses but an iterative attack finds
+        precisely. Understanding that geometry is, in my view, the most important open question in adversarial
+        robustness research.</p>
+
+</article>

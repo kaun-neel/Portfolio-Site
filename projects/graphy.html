@@ -1,0 +1,109 @@
+                    <div class="prompt-line">
+                        <span class="p-user">Neel</span><span class="p-at">@</span><span
+                            class="p-host">portfolio</span><span class="p-colon">:</span><span
+                            class="p-path">~/projects</span><span class="p-dollar">$</span><span class="p-cmd">cat
+                            graphy.md</span>
+                    </div>
+                    <a class="proj-back-btn" onclick="navigate('projects')">[ ← return to projects ]</a>
+                    <article class="article-layout">
+                        <div class="proj-header-row"
+                            style="margin-top: 10px; align-items:flex-start; flex-direction:column; gap:15px;">
+                            <h1 style="border:none; padding:0; margin:0;">Graphy.io</h1>
+                            <div style="display:flex; flex-wrap:wrap; gap:10px;">
+                                <a class="proj-source-btn" href="https://github.com/kaun-neel/graphy.io"
+                                    target="_blank">[ source code ↗ ]</a>
+                            </div>
+                        </div>
+
+                        <div class="article-img-full"
+                            style="height:auto; box-sizing:border-box; background:none; border:none; margin-top:20px; margin-bottom: 30px;">
+                            <img src="assests/graphy_header.png" style="width:100%; height:auto;"
+                                alt="Graphy.io Header">
+                        </div>
+
+                        <h2>Abstract</h2>
+                        <p>In the interconnected world of social media, understanding the structure and dynamics of
+                            networks is crucial. Traditional machine learning models often fall short when dealing with
+                            graph-structured data.</p>
+                        <p>Graphy.io demonstrates the power of <strong>Graph Neural Networks (GNNs)</strong> on social
+                            graphs — representing users as nodes and relationships as edges — to tackle tasks
+                            intractable for standard ML. By applying models like GCN and GraphSAGE to Twitter's follower
+                            network or citation graphs like Cora, we unlock a new class of relational intelligence.</p>
+
+                        <h2>Key Features</h2>
+                        <table class="article-table">
+                            <tr>
+                                <th>Feature</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>Community Detection</td>
+                                <td>Identify densely connected clusters of users within the network</td>
+                            </tr>
+                            <tr>
+                                <td>Link Prediction</td>
+                                <td>Recommend new connections between users likely to interact</td>
+                            </tr>
+                            <tr>
+                                <td>Influencer Identification</td>
+                                <td>Pinpoint the most central nodes based on network topology</td>
+                            </tr>
+                            <tr>
+                                <td>Node Classification</td>
+                                <td>Categorize nodes based on connections and attributes</td>
+                            </tr>
+                            <tr>
+                                <td>t-SNE Visualization</td>
+                                <td>Visualize high-dimensional embeddings reduced to 2D</td>
+                            </tr>
+                            <tr>
+                                <td>Rigorous Evaluation</td>
+                                <td>Benchmark with Accuracy, F1, AUC, NMI, and MSE</td>
+                            </tr>
+                        </table>
+
+                        <h2>Tech Stack</h2>
+                        <ul>
+                            <li><strong>Language:</strong> Python 3.8+</li>
+                            <li><strong>DL Framework:</strong> PyTorch</li>
+                            <li><strong>Graph ML:</strong> PyTorch Geometric (PyG)</li>
+                            <li><strong>Graph Ops:</strong> NetworkX</li>
+                            <li><strong>ML Toolkit:</strong> scikit-learn</li>
+                            <li><strong>Numerics:</strong> NumPy · Pandas</li>
+                            <li><strong>Plotting:</strong> Matplotlib · Seaborn</li>
+                            <li><strong>Versioning:</strong> Git & GitHub</li>
+                        </ul>
+
+                        <h2>Models & Notation</h2>
+                        <p><strong>GCN — Graph Convolutional Network:</strong> Aggregates neighbourhood features via
+                            spectral convolutions. Strong baseline for transductive node classification tasks.</p>
+                        <p><strong>GraphSAGE — Graph Sample and Aggregate:</strong> Inductive framework that samples and
+                            aggregates from local neighbourhoods. Scales to unseen nodes at inference time.</p>
+                        <p><strong>Evaluation Metrics:</strong> Accuracy · F1-Score · AUC · NMI (Normalized Mutual
+                            Information) · MSE</p>
+
+                        <h2>Results</h2>
+                        <p><strong>Dataset:</strong> Cora — 2,708 nodes · 5,429 edges · 7 topic categories<br>
+                            <strong>Task:</strong> Node classification (predict paper topic)<br>
+                            <strong>Model:</strong> Graph Convolutional Network (GCN)
+                        </p>
+                        <p style="font-family:monospace; margin-top:10px; color:var(--accent);">Test Accuracy
+                            ████████████████████████░░░░░ 80.2%</p>
+
+                        <div class="article-img-full"
+                            style="height:auto; box-sizing:border-box; background:none; border:none; margin-top:20px;">
+                            <img src="assests/Figure_1.png"
+                                style="width:100%; height:auto; margin-bottom:20px; border-radius:4px; border:1px solid var(--border);"
+                                alt="t-SNE visualization colored by True Community">
+                            <img src="assests/gcn_cora_tsne_embeddings.png"
+                                style="width:100%; height:auto; margin-bottom:20px; border-radius:4px; border:1px solid var(--border);"
+                                alt="t-SNE visualization of GCN Node Embeddings">
+                            <img src="assests/Graphsage.png"
+                                style="width:100%; height:auto; margin-bottom:10px; border-radius:4px; border:1px solid var(--border);"
+                                alt="t-SNE of Best GCN Model">
+                        </div>
+
+                        <p>The t-SNE plot of learned embeddings shows clear clustering by paper category, confirming the
+                            model has successfully learned to group topically similar papers together in the embedding
+                            space.</p>
+                    </article>

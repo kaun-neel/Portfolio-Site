@@ -1,0 +1,297 @@
+                    <div class="prompt-line">
+                        <span class="p-user">Neel</span><span class="p-at">@</span><span
+                            class="p-host">portfolio</span><span class="p-colon">:</span><span
+                            class="p-path">~/cases</span><span class="p-dollar">$</span><span class="p-cmd">cat
+                            nasa_exoplanet_scorer.md</span>
+                    </div>
+                    <a class="proj-back-btn" onclick="navigate('cases')">[ ← return to cases ]</a>
+
+                    <article class="article-layout">
+                        <div class="proj-header-row"
+                            style="margin-top: 10px; align-items:flex-start; flex-direction:column; gap:15px;">
+                            <h1 style="border:none; padding:0; margin:0;">NASA Exoplanet Habitability Scorer</h1>
+                            <div style="display:flex; flex-wrap:wrap; gap:10px;">
+                                <a class="proj-source-btn" href="assests/NASA_Exoplanet_Case_Study.pdf"
+                                    target="_blank">[ download pdf ↓ ]</a>
+                                <a class="proj-source-btn"
+                                    href="https://github.com/kaun-neel/Exoplanets-Habitabilty-Scorer" target="_blank">[
+                                    source code ↗ ]</a>
+                            </div>
+                        </div>
+                        <p style="color:var(--text-dim); margin-bottom: 30px;">SQL Data Engineering Case Study</p>
+
+                        <h2>1. Executive Summary</h2>
+                        <p>This project presents a fully functional Exoplanet Habitability Scoring Engine built entirely
+                            in SQL, using real observational data sourced from NASA's Planetary Systems Composite
+                            Parameters archive. The system ingests data for 6,138 confirmed exoplanets across 4,610 host
+                            star systems and applies a scientifically grounded, multi-factor weighted algorithm to rank
+                            each planet by its potential to support life.</p>
+                        <p>The scoring model evaluates five independent dimensions: <strong>planetary size</strong>,
+                            <strong>equilibrium temperature</strong>, <strong>orbital position within the stellar
+                                habitable zone</strong>, <strong>host star stability</strong>, and <strong>proximity to
+                                Earth</strong>, thus assigning a maximum of 100 points per planet. Results are
+                            classified into four tiers: Highly Habitable, Potentially Habitable, Marginally Habitable,
+                            and Uninhabitable.</p>
+
+                        <h3>Key Findings at a Glance</h3>
+                        <ul>
+                            <li>6,138 confirmed exoplanets analysed from the NASA Planetary Archive</li>
+                            <li>4,610 unique host stars with computed habitable zone boundaries</li>
+                            <li>76.7% of planets classified as Uninhabitable based on the 5-factor model</li>
+                            <li>22.0% classified as Marginally Habitable showing partial life-supporting conditions</li>
+                            <li>A small but significant subset identified as Potentially or Highly Habitable</li>
+                            <li>Top-ranked planets score across all five dimensions simultaneously</li>
+                        </ul>
+
+                        <h2>2. Project Overview</h2>
+                        <h3>2.1 Motivation</h3>
+                        <p>The search for habitable worlds beyond Earth is one of the defining scientific endeavours of
+                            our time. NASA's Kepler, TESS, and James Webb Space Telescope missions have collectively
+                            confirmed thousands of exoplanets, each characterised by dozens of physical measurements.
+                            Yet translating raw astronomical data into a meaningful habitability ranking requires
+                            structured data engineering and precisely the domain of SQL.</p>
+                        <p>This project was conceived to demonstrate that SQL is not merely a query language for
+                            business reporting, but a powerful analytical tool capable of implementing scientific
+                            algorithms. By building this engine on real NASA data, the project bridges two disciplines:
+                            astronomy and data engineering.</p>
+
+                        <h3>2.2 Objectives</h3>
+                        <ul>
+                            <li>Design a normalised relational database schema for planetary and stellar data</li>
+                            <li>Import and clean 6,138+ rows of real NASA observational data</li>
+                            <li>Derive missing columns (stellar luminosity, orbital semi-major axis) from physics
+                                equations</li>
+                            <li>Implement a 5-factor weighted habitability scoring algorithm in pure SQL</li>
+                            <li>Rank all planets using SQL window functions and classify them into habitability tiers
+                            </li>
+                            <li>Visualise findings with five professional Python charts</li>
+                        </ul>
+
+                        <div class="clear-float"></div>
+
+                        <h2>3. Dataset & Data Engineering</h2>
+                        <h3>3.1 Raw Dataset Columns Used</h3>
+                        <table class="article-table">
+                            <tr>
+                                <th>Column</th>
+                                <th>Description</th>
+                                <th>Role in Model</th>
+                            </tr>
+                            <tr>
+                                <td>pl_name</td>
+                                <td>Planet name</td>
+                                <td>Primary identifier</td>
+                            </tr>
+                            <tr>
+                                <td>pl_rade</td>
+                                <td>Planet radius (Earth radii)</td>
+                                <td>Size score calculation</td>
+                            </tr>
+                            <tr>
+                                <td>pl_eqt</td>
+                                <td>Equilibrium temperature (K)</td>
+                                <td>Temperature score</td>
+                            </tr>
+                            <tr>
+                                <td>pl_orbper</td>
+                                <td>Orbital period (days)</td>
+                                <td>Derive orbital distance</td>
+                            </tr>
+                            <tr>
+                                <td>st_teff</td>
+                                <td>Star surface temperature (K)</td>
+                                <td>Star stability score</td>
+                            </tr>
+                            <tr>
+                                <td>st_rad</td>
+                                <td>Star radius (solar radii)</td>
+                                <td>Derive luminosity</td>
+                            </tr>
+                            <tr>
+                                <td>st_mass</td>
+                                <td>Star mass (solar masses)</td>
+                                <td>Star stability + HZ calc</td>
+                            </tr>
+                            <tr>
+                                <td>sy_dist</td>
+                                <td>Distance from Earth (parsecs)</td>
+                                <td>Distance score</td>
+                            </tr>
+                        </table>
+
+                        <h3>3.2 Derived Columns</h3>
+                        <p>The raw NASA dataset was missing several columns required by the scoring model. Rather than
+                            discarding affected rows, two critical values were mathematically derived using established
+                            physics equations, demonstrating domain knowledge beyond SQL alone.</p>
+                        <table class="article-table">
+                            <tr>
+                                <th>Derived Column</th>
+                                <th>Formula Applied</th>
+                                <th>Scientific Basis</th>
+                            </tr>
+                            <tr>
+                                <td>st_luminosity</td>
+                                <td>L = R^2 x (T / 5778)^4</td>
+                                <td>Stefan-Boltzmann Law</td>
+                            </tr>
+                            <tr>
+                                <td>pl_orbsmax</td>
+                                <td>a = (T_yr^2 x M_star)^(1/3)</td>
+                                <td>Kepler's Third Law</td>
+                            </tr>
+                        </table>
+
+                        <h2>4. Database Schema Design</h2>
+                        <p>The database follows third normal form (3NF) to eliminate data redundancy. Star attributes
+                            are stored once in the star_systems table and referenced by all associated planets via a
+                            foreign key, mirroring industry-standard data warehouse design patterns.</p>
+
+                        <h3>4.1 Tables & Relationships</h3>
+                        <ul>
+                            <li><strong>star_systems (4,610 rows):</strong> Stores host star measurements and derived
+                                luminosity</li>
+                            <li><strong>exoplanets (6,138 rows):</strong> Stores all planetary measurements with FK to
+                                star</li>
+                            <li><strong>habitable_zone (3,713 rows):</strong> Pre-computed HZ boundaries per star
+                                (inner/outer AU)</li>
+                            <li><strong>habitability_scores (—):</strong> Stores final scores and classification per
+                                planet</li>
+                        </ul>
+                        <p>Relationships:<br>
+                            • star_systems (1) ──> exoplanets (many) via star_id<br>
+                            • star_systems (1) ──> habitable_zone (1) via star_id<br>
+                            • exoplanets (1) ──> habitability_scores (1) via planet_id
+                        </p>
+
+                        <div class="clear-float"></div>
+
+                        <h2>5. The Habitability Scoring Algorithm</h2>
+                        <p>The scoring model assigns up to 100 points per planet across five independent dimensions.
+                            Each dimension is implemented as a CASE expression within a layered CTE structure, allowing
+                            each factor to be audited, adjusted, and extended independently.</p>
+
+                        <table class="article-table">
+                            <tr>
+                                <th>Dimension</th>
+                                <th>Max</th>
+                                <th>Scoring Criteria</th>
+                                <th>Rationale</th>
+                            </tr>
+                            <tr>
+                                <td>Planet Size</td>
+                                <td>20 pts</td>
+                                <td>0.8–1.5 RE = 20 pts; 1.5–2.0 RE = 14 pts; 0.5–0.8 RE = 10 pts</td>
+                                <td>Rocky Earth-like planets most likely to hold atmosphere & liquid water</td>
+                            </tr>
+                            <tr>
+                                <td>Temperature</td>
+                                <td>25 pts</td>
+                                <td>260–320 K = 25 pts; 230–260 K = 18 pts; 320–370 K = 15 pts</td>
+                                <td>Liquid water requires 273–373 K; sweet spot maximised near 290 K</td>
+                            </tr>
+                            <tr>
+                                <td>Habitable Zone</td>
+                                <td>25 pts</td>
+                                <td>Inside HZ = 25 pts; Within 15% of HZ edge = 12 pts</td>
+                                <td>Orbital position determines long-term stellar energy flux balance</td>
+                            </tr>
+                            <tr>
+                                <td>Star Stability</td>
+                                <td>20 pts</td>
+                                <td>G/K type (4000–7000 K, 0.5–1.4 solar masses) = 20 pts</td>
+                                <td>Sun-like stars offer stable UV environment and multi-billion year lifespan</td>
+                            </tr>
+                            <tr>
+                                <td>Distance</td>
+                                <td>10 pts</td>
+                                <td>&lt;20 pc = 10 pts; &lt;100 pc = 7 pts; &lt;500 pc = 4 pts</td>
+                                <td>Proximity enables spectroscopic follow up and future mission planning</td>
+                            </tr>
+                        </table>
+
+                        <h2>6. SQL Techniques Demonstrated</h2>
+                        <p>A multi-layer CTE pipeline was used to simplify complex calculations. Instead of writing
+                            deeply nested queries, the logic was divided into sequential steps (HZ calculation → scoring
+                            → totals → ranking).</p>
+                        <p>Conditional scoring logic was implemented using <code>CASE</code> expressions, and Window
+                            functions such as <code>RANK() OVER()</code> were used to generate a global leaderboard.
+                            Derived limits were inserted iteratively via <code>INSERT ... SELECT</code> statements while
+                            mathematical functions extracted exact HZ boundaries natively within the RDMS engine.</p>
+
+                        <div class="clear-float"></div>
+
+                        <h2>7. Results & Findings</h2>
+
+                        <div class="article-img-left" style="width:400px; height:auto; padding:10px;">
+                            <img src="assests/graph4_pie.png" style="width:100%; height:auto;"
+                                alt="Habitability Distribution Pie Chart">
+                            <span style="margin-top:10px; display:block;">Fig 4: Habitability Distribution Pie
+                                Chart</span>
+                        </div>
+                        <h3>7.1 Habitability Distribution</h3>
+                        <p>After running the full scoring engine across all 6,138 planets with complete data, the
+                            results reveal a distribution consistent with scientific expectation — the vast majority of
+                            known exoplanets are hostile to life as we know it, while a small but meaningful fraction
+                            show promising characteristics.</p>
+                        <ul>
+                            <li><strong>76.7% — Uninhabitable:</strong> extreme temperatures, gas giants, or poor
+                                stellar environments</li>
+                            <li><strong>22.0% — Marginally Habitable:</strong> meet 1–2 criteria, limited by temperature
+                                or orbit</li>
+                            <li><strong>~1.1% — Potentially Habitable:</strong> strong multi-factor scores, promising
+                                candidates</li>
+                            <li><strong>&lt; 0.2% — Highly Habitable:</strong> score 80+ across all five dimensions
+                                simultaneously</li>
+                        </ul>
+
+                        <div class="clear-float"></div>
+
+                        <h3>7.2 What Makes a Top-Ranked Planet?</h3>
+                        <p>Analysis of the highest-scoring planets reveals a consistent profile. Top candidates are
+                            invariably Earth-sized (0.8–1.5 Earth radii), maintain equilibrium temperatures between
+                            260–320 Kelvin, orbit comfortably within their star's habitable zone, and orbit G or K-type
+                            stars with masses between 0.5 and 1.4 solar masses — closely resembling the conditions of
+                            our Solar System.</p>
+
+                        <div class="article-img-full"
+                            style="height:auto; padding:20px; box-sizing:border-box; background:none; border:none;">
+                            <img src="assests/graph1_top20.png"
+                                style="width:100%; height:auto; margin-bottom:30px; border-radius:4px; border:1px solid var(--border);"
+                                alt="Top 20 Most Habitable Exoplanets">
+                            <img src="assests/graph2_breakdown.png"
+                                style="width:100%; height:auto; border-radius:4px; border:1px solid var(--border);"
+                                alt="Score Breakdown">
+                            <span style="margin-top:20px; color:var(--text-dim);">Fig 1 & 2: Top 20 Most Habitable
+                                Exoplanets & Score Breakdown. Kepler-1544 b leads with an outstanding score of
+                                88/100.</span>
+                        </div>
+
+                        <div class="article-img-right"
+                            style="width:450px; height:auto; padding:15px; box-sizing:border-box; background:none; border:none;">
+                            <img src="assests/graph3_scatter.png"
+                                style="width:100%; height:auto; margin-bottom:20px; border-radius:4px; border:1px solid var(--border);"
+                                alt="Temperature vs Size Scatter">
+                            <img src="assests/graph5_distance.png"
+                                style="width:100%; height:auto; border-radius:4px; border:1px solid var(--border);"
+                                alt="Distance vs Total Score">
+                            <span style="margin-top:15px; display:block; color:var(--text-dim);">Fig 3 & 5: Temperature
+                                vs Size Scatter & Distance vs Total Score</span>
+                        </div>
+                        <p>The highlighted green region marks the ideal temperature range (200–380 K) and the blue band
+                            marks the Earth-like size range. Most top planets max out Temperature and Orbit, while
+                            variation in Size and Distance creates the differentiation between candidates. High-scoring
+                            candidates cluster within 250 parsecs, making them accessible targets for JWST follow-up
+                            missions.</p>
+
+                        <div class="clear-float"></div>
+
+                        <h2>Conclusion</h2>
+                        <p>This study demonstrates that SQL is fully capable of driving advanced scientific scoring
+                            engines alongside conventional data analysis. For full data transparency and
+                            reproducibility, including all preprocessing scripts, SQL query files, and detailed data
+                            charts, please visit the repository explicitly attached below.</p>
+                        <a class="proj-source-btn" href="https://github.com/kaun-neel/Exoplanets-Habitabilty-Scorer"
+                            target="_blank" style="display:inline-block; margin-top:20px;">[ VIEW FULL REPOSITORY ON
+                            GITHUB ]</a>
+
+                    </article>
